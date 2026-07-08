@@ -1,0 +1,5 @@
+tests:
+  - question: "What is this document about?"
+    expected_sources:
+      - "example.md"
+    notes: "Expected source paths can be full paths or suffixes."

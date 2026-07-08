@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review"
+  short_description: "Audit builds against saved specs"
+  default_prompt: "Use $review to compare the current build against a saved spec requirement by requirement."

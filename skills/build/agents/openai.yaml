@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build"
+  short_description: "Build exactly from saved specs"
+  default_prompt: "Use $build to read a saved spec and implement exactly what it describes."

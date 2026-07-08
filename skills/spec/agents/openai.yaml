@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spec"
+  short_description: "Interview users and write build specs"
+  default_prompt: "Use $spec to interview me about a feature or app and write a detailed spec."
