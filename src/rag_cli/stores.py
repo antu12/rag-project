@@ -228,7 +228,16 @@ class QdrantStore(BaseVectorStore):
         self.client.delete(collection_name=namespace, points_selector=PointIdsList(points=vector_ids))
 
     def search(self, namespace: str, query_embedding: list[float], top_k: int) -> list[SearchHit]:
-        rows = self.client.search(collection_name=namespace, query_vector=query_embedding, limit=top_k)
+        if hasattr(self.client, "query_points"):
+            response = self.client.query_points(
+                collection_name=namespace,
+                query=query_embedding,
+                limit=top_k,
+                with_payload=True,
+            )
+            rows = response.points
+        else:  # qdrant-client versions before the universal query API.
+            rows = self.client.search(collection_name=namespace, query_vector=query_embedding, limit=top_k)
         hits: list[SearchHit] = []
         for row in rows:
             payload = row.payload or {}

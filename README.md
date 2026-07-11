@@ -766,6 +766,8 @@ Settings accepts OpenAI and Gemini keys as write-only values and stores them in 
 
 Chat sessions and turns are saved locally for browsing, but every question is an independent RAG query. Earlier turns are not added to retrieval or generation context. Conversation-aware retrieval and memory are planned as a later backend milestone.
 
+Answers render safe Markdown formatting such as bullet lists, emphasis, code blocks, quotes, and tables. Raw HTML from model output is not rendered.
+
 ### Web Troubleshooting
 
 - If the page does not load, run `npm run build` in `web/` and restart `rag web`.

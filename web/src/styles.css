@@ -62,6 +62,17 @@ td { padding: 11px 12px; border-top: 1px solid #e5e9e7; vertical-align: top; }
 .messages { flex: 1; padding: 20px; overflow: auto; }
 .message { margin-bottom: 18px; max-width: 850px; }
 .message.question { margin-left: auto; background: #e8f1ee; padding: 10px 12px; border-radius: 7px; }
+.markdown-answer { line-height: 1.65; overflow-wrap: anywhere; }
+.markdown-answer > :first-child { margin-top: 8px; }
+.markdown-answer > :last-child { margin-bottom: 10px; }
+.markdown-answer p { margin: 8px 0; }
+.markdown-answer ul, .markdown-answer ol { margin: 8px 0; padding-left: 24px; }
+.markdown-answer li { margin: 5px 0; }
+.markdown-answer code { padding: 2px 5px; border-radius: 4px; background: #eef2f0; font-size: .9em; }
+.markdown-answer pre { overflow-x: auto; padding: 12px; border: 1px solid #dce2df; border-radius: 6px; background: #f7f9f8; }
+.markdown-answer pre code { padding: 0; background: transparent; }
+.markdown-answer blockquote { margin: 10px 0; padding-left: 12px; border-left: 3px solid #8ba39b; color: #53645e; }
+.markdown-answer table { margin: 12px 0; border: 1px solid #dce2df; }
 .composer { border-top: 1px solid #dce2df; padding: 14px; display: grid; grid-template-columns: 1fr auto; gap: 10px; }
 .empty { padding: 44px 20px; text-align: center; color: #64736e; }
 .mobile-nav { display: none; }
