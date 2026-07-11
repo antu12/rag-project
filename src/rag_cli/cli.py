@@ -243,6 +243,24 @@ def ingest_server(
         fail(exc)
 
 
+@app.command("web")
+def web_server(
+    host: str = typer.Option("127.0.0.1", "--host"),
+    port: int = typer.Option(8000, "--port"),
+    reload: bool = typer.Option(False, "--reload"),
+) -> None:
+    """Start the local RAG Web application and API."""
+    try:
+        import uvicorn
+
+        if host not in {"127.0.0.1", "localhost", "::1"}:
+            console.print("[yellow]Warning:[/yellow] authentication is not enabled; do not expose this server publicly.")
+        console.print(f"RAG Web app: http://{host}:{port}")
+        uvicorn.run("rag_cli.web_api:app", host=host, port=port, reload=reload)
+    except Exception as exc:
+        fail(exc)
+
+
 @app.command("ingest-async")
 def ingest_async(
     path: Path,

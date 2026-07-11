@@ -10,6 +10,8 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 dist/
+node_modules/
+*.tsbuildinfo
 /build/
 *.egg-info/
 data/

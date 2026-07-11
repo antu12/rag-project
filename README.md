@@ -701,6 +701,78 @@ When something goes wrong, debug in that order:
 2. Did `rag search "your topic"` find useful chunks?
 3. Did `rag ask "your question" --debug` send useful context to the model?
 
+## Local Web Application
+
+The React Web application provides the same learning workflow through a browser: workspaces, managed document uploads, synchronous or Inngest ingestion, detailed activity, source/chunk inspection, retrieval search, grounded questions with citations, saved independent question history, evaluation suites, settings, and system health.
+
+The first version is local and single-user. It has no authentication, so the server binds to `127.0.0.1` by default. Do not expose it to a public network.
+
+### Install Web Dependencies
+
+Install the Python project as described above, then install and build the frontend:
+
+```powershell
+cd web
+npm install
+npm run build
+cd ..
+```
+
+The same commands work in WSL/Linux. Node.js 20 or newer is recommended.
+
+### Start The Web Application
+
+Start the selected vector database first:
+
+```powershell
+docker compose up -d
+```
+
+Then activate the Python virtual environment and run:
+
+```powershell
+rag web
+```
+
+Open `http://127.0.0.1:8000`. The production frontend bundle is served by FastAPI. The same server also exposes the versioned API under `/api/v1`, OpenAPI documentation at `/docs`, and the Inngest endpoint at `/api/inngest`.
+
+For frontend development, use two terminals:
+
+```powershell
+# Terminal 1, repository root
+rag web --reload
+
+# Terminal 2
+cd web
+npm run dev
+```
+
+Open `http://127.0.0.1:5173`. Vite proxies `/api` requests to FastAPI.
+
+### Managed Uploads And Ingestion Modes
+
+Browser uploads are copied into `.rag/uploads/<workspace>/`. Indexed vectors and source metadata are separate from those managed copies. Source deletion and workspace reset therefore ask separately whether managed files should also be deleted.
+
+- **Synchronous** ingestion runs inside the local FastAPI process. Restarting that process interrupts the job.
+- **Inngest** ingestion submits durable work to the local Inngest Dev Server. Start the Inngest service with Docker Compose and open `http://localhost:8288` for its detailed run timeline.
+
+Both modes create local activity records. Progress remains available after a page refresh. Avoid running conflicting ingestion and reset operations against the same workspace and store.
+
+### Provider Keys In The Web UI
+
+Settings accepts OpenAI and Gemini keys as write-only values and stores them in the git-ignored project `.env`. Existing key values are never returned to the browser. Shell environment variables still take precedence over `.env` values.
+
+### Chat History
+
+Chat sessions and turns are saved locally for browsing, but every question is an independent RAG query. Earlier turns are not added to retrieval or generation context. Conversation-aware retrieval and memory are planned as a later backend milestone.
+
+### Web Troubleshooting
+
+- If the page does not load, run `npm run build` in `web/` and restart `rag web`.
+- If upload works but ingestion fails, open System Health and verify the selected provider key and vector store.
+- If Inngest submission fails, start both `rag web` and the `inngest` Docker Compose service.
+- Upload defaults are 25 files per request and 25 MiB per file. Override them with `RAG_WEB_MAX_UPLOAD_FILES` and `RAG_WEB_MAX_UPLOAD_BYTES`.
+
 ## Future Extensions
 
 Later versions can add:
